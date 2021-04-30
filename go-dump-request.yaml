@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: go-dump-request
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-dump-request
+  labels:
+    app: go-dump-request
+    service: go-dump-request
+spec:
+  #type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+  selector:
+    app: go-dump-request
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-dump-request
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-dump-request
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: go-dump-request
+        version: v1
+    spec:
+      serviceAccountName: go-dump-request
+      containers:
+        - image: niteshsince1982/go-request-dump:1.0
+          imagePullPolicy: IfNotPresent
+          name: go-dump-request
+          ports:
+            - containerPort: 8080
