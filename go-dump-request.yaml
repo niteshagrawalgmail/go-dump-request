@@ -37,7 +37,7 @@ spec:
     spec:
       serviceAccountName: go-dump-request
       containers:
-        - image: niteshsince1982/go-request-dump:1.0
+        - image: niteshsince1982/go-request-dump:2.0
           imagePullPolicy: IfNotPresent
           name: go-dump-request
           ports:
